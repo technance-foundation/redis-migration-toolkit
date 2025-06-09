@@ -4,25 +4,6 @@ A pair of Python CLI scripts to migrate **all** keys (including RedisJSON) from 
 
 ---
 
-## Features
-
--   ☁️ **Upstash Source**  
-    Connects to your Upstash Redis (via TLS) using credentials from an `.env` file.
-
--   🖥️ **Local Destination**  
-    Migrates into any locally running Redis instance.
-
--   🔄 **Full Data Fidelity**
-
-    -   Preserves **all key types** (strings, hashes, lists, sets, sorted sets, and RedisJSON).
-    -   Preserves **TTL** on each key.
-
--   🚀 **High-Speed Mode**
-    -   Batches & pipelines commands to minimize network round-trips.
-    -   Configurable batch size for throughput tuning.
-
----
-
 ## Prerequisites
 
 -   Python 3.7+
@@ -54,6 +35,27 @@ A pair of Python CLI scripts to migrate **all** keys (including RedisJSON) from 
     # then edit .env to set UPSTASH_HOST, UPSTASH_PORT, UPSTASH_PASSWORD
     ```
 
+4. **Run Redis Stack & RedisInsight via Docker**
+
+    ```bash
+    # Pull & run Redis Stack server
+    docker pull redis/redis-stack:latest
+    docker run -d \
+      --name redis-stack-server \
+      -p 6379:6379 \
+      redis/redis-stack:latest
+
+    # Pull & run RedisInsight UI
+    docker pull redis/redisinsight:latest
+    docker run -d \
+      --name redisinsight \
+      -p 5540:5540 \
+      redis/redisinsight:latest
+
+    # Open the GUI:
+    http://localhost:5540
+    ```
+
 ---
 
 ## Configuration
@@ -61,7 +63,7 @@ A pair of Python CLI scripts to migrate **all** keys (including RedisJSON) from 
 Your `.env` file should look like this (no quotes):
 
 ```dotenv
-UPSTASH_HOST=engaging-killdeer-16317.upstash.io
+UPSTASH_HOST=your_upstash_host_here
 UPSTASH_PORT=6379
 UPSTASH_PASSWORD=your_upstash_password_here
 ```
